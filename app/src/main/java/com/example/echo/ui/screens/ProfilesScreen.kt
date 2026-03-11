@@ -14,11 +14,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,8 +34,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 
 @Preview
 @Composable
@@ -41,18 +49,30 @@ fun AudioProfilesScreen() {
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
+            .background(color=Color.White)
     ) {
 
         // Title
-        Text(
-            text = "Profiles",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+        Row(
+            horizontalArrangement = Arrangement.Start
+        ) {
+            IconButton(onClick = { /* TODO */ }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+            Text(
+                text = "Profiles",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
 
         // Profile selector row
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+        FlowRow(
+            mainAxisSpacing = 12.dp,
+            crossAxisSpacing = 12.dp,
             modifier = Modifier.fillMaxWidth()
         ) {
             profiles.forEach { profile ->
@@ -92,7 +112,8 @@ fun AudioProfilesScreen() {
                 .fillMaxWidth()
                 .height(52.dp)
         ) {
-            Text("LEARN MORE")
+            Text(
+                "LEARN MORE")
         }
     }
 }
