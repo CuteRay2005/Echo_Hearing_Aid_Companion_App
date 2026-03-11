@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
@@ -45,87 +47,112 @@ fun AudioProfilesScreen() {
     val profiles = listOf("TELEVISION", "WORK", "CAFE", "CONVERSATION")
     var selectedProfile by remember { mutableStateOf("CONVERSATION") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp)
-            .background(color=Color.White)
+    Box(
+        modifier = Modifier.background(color = Color.White)
     ) {
-
-        // Title
-        Row(
-            horizontalArrangement = Arrangement.Start
-        ) {
-            IconButton(onClick = { /* TODO */ }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
-            Text(
-                text = "Profiles",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
-
-        // Profile selector row
-        FlowRow(
-            mainAxisSpacing = 12.dp,
-            crossAxisSpacing = 12.dp,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            profiles.forEach { profile ->
-                ProfileChip(
-                    label = profile,
-                    selected = profile == selectedProfile,
-                    onClick = { selectedProfile = profile }
-                )
-            }
-        }
-
-        Spacer(Modifier.height(32.dp))
-
-        // Frequency Section
-        Text(
-            text = "Frequency",
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        Spacer(Modifier.height(16.dp))
-
-        FrequencyBars()
-
-        Spacer(Modifier.height(32.dp))
-
-        // Sliders
-        LabeledSlider("Background Noise Reduction")
-        Spacer(Modifier.height(24.dp))
-        LabeledSlider("Speech Focus")
-
-        Spacer(Modifier.weight(1f))
-
-        // Bottom button
-        Button(
-            onClick = {},
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp)
+                .fillMaxSize()
+                .padding(20.dp)
         ) {
+
+            // Title
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { /* TODO */ }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back"
+                    )
+                }
+                Text(
+                    text = "Profiles",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+
+            // Profile selector row
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(color = Color(0XFFDDDDDD))
+                    .padding(horizontal = 10.dp)
+            ) {
+                FlowRow(
+                    mainAxisSpacing = 12.dp,
+                    crossAxisSpacing = 6.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    profiles.forEach { profile ->
+                        ProfileChip(
+                            label = profile,
+                            selected = profile == selectedProfile,
+                            onClick = { selectedProfile = profile },
+                            modifier = Modifier.padding(4.dp),
+                        )
+                    }
+                    IconButton(onClick = { /* TODO */ }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Add,
+                            contentDescription = "new"
+                        )
+                    }
+                }
+            }
+
+
+            Spacer(Modifier.height(32.dp))
+
+            // Frequency Section
             Text(
-                "LEARN MORE")
+                text = "Frequency",
+                style = MaterialTheme.typography.titleLarge
+            )
+
+            Spacer(Modifier.height(32.dp))
+
+            FrequencyBars()
+
+            Spacer(Modifier.height(32.dp))
+
+            // Sliders
+            LabeledSlider("Background Noise Reduction")
+            Spacer(Modifier.height(24.dp))
+            LabeledSlider("Speech Focus")
+
+            Spacer(Modifier.weight(1f))
+
+            // Bottom button
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+            ) {
+                Text(
+                    "LEARN MORE"
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ProfileChip(label: String, selected: Boolean, onClick: () -> Unit) {
-    val bg = if (selected) Color(0xFF00A8A8) else Color(0xFFE0E0E0)
+fun ProfileChip(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val bg = if (selected) Color(0xFF00A8A8) else Color.White
     val textColor = if (selected) Color.White else Color.Black
 
     Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
+        modifier = modifier
             .background(bg)
             .clickable { onClick() }
             .padding(horizontal = 14.dp, vertical = 8.dp)
@@ -167,14 +194,13 @@ fun FrequencyBar(label: String, fillFraction: Float) {
             )
         }
         Spacer(Modifier.height(8.dp))
-        Text(label)
+        Text(label, fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
 fun LabeledSlider(label: String) {
     Column {
-        Text(label, style = MaterialTheme.typography.titleMedium)
         Slider(
             value = 0.5f,
             onValueChange = {},
@@ -184,5 +210,6 @@ fun LabeledSlider(label: String) {
                 inactiveTrackColor = Color(0xFFB2EBEB)
             )
         )
+        Text(label, style = MaterialTheme.typography.titleMedium)
     }
 }
