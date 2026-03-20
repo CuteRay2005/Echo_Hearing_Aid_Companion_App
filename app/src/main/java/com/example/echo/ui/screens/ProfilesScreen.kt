@@ -41,9 +41,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 
-@Preview
+//@Preview
 @Composable
-fun AudioProfilesScreen() {
+fun AudioProfilesScreen(modifier: Modifier) {
     val profiles = listOf("TELEVISION", "WORK", "CAFE", "CONVERSATION")
     var selectedProfile by remember { mutableStateOf("CONVERSATION") }
 
